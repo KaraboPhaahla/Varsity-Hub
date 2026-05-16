@@ -473,7 +473,174 @@ footer{
     box-shadow:0 15px 30px rgba(0,162,255,.2);
 }
 
+/* =========================
+   MOBILE MENU
+========================= */
 
+.menu-toggle{
+    display:none;
+    width:50px;
+    height:50px;
+    border-radius:15px;
+    border:none;
+    background:rgba(255,255,255,.08);
+    color:white;
+    font-size:1.4rem;
+    cursor:pointer;
+    backdrop-filter:blur(20px);
+}
+
+/* SIDE MENU */
+
+.mobile-menu{
+    position:fixed;
+    top:0;
+    right:-100%;
+    width:280px;
+    height:100vh;
+    background:rgba(15,23,42,.92);
+    backdrop-filter:blur(25px);
+    z-index:99999;
+    padding:100px 30px;
+    transition:.4s ease;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    border-left:1px solid rgba(255,255,255,.08);
+}
+
+.mobile-menu.active{
+    right:0;
+}
+
+.mobile-menu a{
+    text-decoration:none;
+    color:white;
+    font-size:1.1rem;
+    padding:15px 20px;
+    border-radius:16px;
+    background:rgba(255,255,255,.05);
+    transition:.3s;
+}
+
+.mobile-menu a:hover{
+    background:rgba(0,162,255,.15);
+    transform:translateX(-5px);
+}
+
+.close-menu{
+    position:absolute;
+    top:25px;
+    right:25px;
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:14px;
+    background:rgba(255,255,255,.08);
+    color:white;
+    font-size:1.2rem;
+    cursor:pointer;
+}
+
+/* OVERLAY */
+
+.menu-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:9999;
+    display:none;
+}
+
+.menu-overlay.active{
+    display:block;
+}
+
+/* =========================
+   BETTER MOBILE RESPONSIVE
+========================= */
+
+@media(max-width:950px){
+
+    nav{
+        display:none;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .hero{
+        grid-template-columns:1fr;
+        text-align:center;
+        padding-top:40px;
+    }
+
+    .hero-text h2{
+        font-size:2.7rem;
+    }
+
+    .hero-buttons{
+        justify-content:center;
+    }
+
+    .hero-card{
+        margin-top:20px;
+    }
+
+    section{
+        padding:70px 20px;
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .features-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:650px){
+
+    .hero-text h2{
+        font-size:2.1rem;
+    }
+
+    .hero-text p{
+        font-size:.95rem;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+    }
+
+    .mini-grid,
+    .quick-grid{
+        grid-template-columns:1fr;
+    }
+
+    .auth-box,
+    .panel{
+        padding:25px;
+        border-radius:25px;
+    }
+
+    .logo h1{
+        font-size:1.2rem;
+    }
+
+    .logo-box{
+        width:48px;
+        height:48px;
+    }
+
+}
 
 </style>
 </head>
@@ -484,45 +651,99 @@ footer{
 
     <div class="logo" onclick="goHome()">
 
-    <div class="logo-box">V</div>
+        <div class="logo-box">V</div>
 
-    <h1>VarsityHub</h1>
+        <h1>VarsityHub</h1>
 
-</div>
+    </div>
 
-   <nav>
+    <nav>
 
-    <a href="#" onclick="goHome()">Home</a>
+        <a href="#" onclick="goHome()">Home</a>
 
-    <a href="#" onclick="showSection('features')">
-        Features
-    </a>
+        <a href="#" onclick="showSection('features')">
+            Features
+        </a>
 
-    <a href="#" onclick="openDashboard()">
-        Dashboard
-    </a>
+        <a href="#" onclick="openDashboard()">
+            Dashboard
+        </a>
 
-    <a href="#" onclick="openProtectedSection('marketplace')">
-        Marketplace
-    </a>
+        <a href="#" onclick="openProtectedSection('marketplace')">
+            Marketplace
+        </a>
 
-    <a href="#" onclick="openProtectedSection('groups')">
-        Study Groups
-    </a>
+        <a href="#" onclick="openProtectedSection('groups')">
+            Study Groups
+        </a>
 
-    <!-- DYNAMIC AUTH BUTTON -->
+        <a href="#"
+           id="authButton"
+           onclick="handleAuthButton()">
 
-    <a href="#"
-       id="authButton"
-       onclick="handleAuthButton()">
+           Login
 
-       Login
+        </a>
 
-    </a>
+    </nav>
 
-</nav>
+    <!-- MOBILE MENU BUTTON -->
+
+    <button class="menu-toggle"
+        onclick="openMenu()">
+
+        ☰
+
+    </button>
 
 </header>
+
+<!-- MOBILE MENU -->
+
+<div class="menu-overlay"
+     id="menuOverlay"
+     onclick="closeMenu()">
+</div>
+
+<div class="mobile-menu"
+     id="mobileMenu">
+
+    <button class="close-menu"
+        onclick="closeMenu()">
+
+        ✕
+
+    </button>
+
+    <a href="#" onclick="goHome(); closeMenu();">
+        🏠 Home
+    </a>
+
+    <a href="#" onclick="showSection('features'); closeMenu();">
+        ✨ Features
+    </a>
+
+    <a href="#" onclick="openDashboard(); closeMenu();">
+        📊 Dashboard
+    </a>
+
+    <a href="#" onclick="openProtectedSection('marketplace'); closeMenu();">
+        🛒 Marketplace
+    </a>
+
+    <a href="#" onclick="openProtectedSection('groups'); closeMenu();">
+        👥 Study Groups
+    </a>
+
+    <a href="#"
+       id="mobileAuthButton"
+       onclick="handleAuthButton(); closeMenu();">
+
+       🔐 Login
+
+    </a>
+
+</div>
 
 <!-- HERO -->
 
@@ -1120,6 +1341,9 @@ onAuthStateChanged(auth,(user)=>{
     document.getElementById("authButton");
 
     if(user){
+	    
+	    document.getElementById("mobileAuthButton")
+.innerHTML = "Logout";
 
         authButton.innerHTML = "Logout";
 
@@ -1137,6 +1361,9 @@ onAuthStateChanged(auth,(user)=>{
         }
 
     }else{
+	    
+		document.getElementById("mobileAuthButton")
+.innerHTML = "Login";
 
         authButton.innerHTML = "Login";
 
@@ -1503,6 +1730,34 @@ window.openProtectedSection = function(sectionId){
     }
 
     showSection(sectionId);
+
+}
+
+/* =========================================
+   MOBILE MENU
+========================================= */
+
+window.openMenu = function(){
+
+    document
+    .getElementById("mobileMenu")
+    .classList.add("active");
+
+    document
+    .getElementById("menuOverlay")
+    .classList.add("active");
+
+}
+
+window.closeMenu = function(){
+
+    document
+    .getElementById("mobileMenu")
+    .classList.remove("active");
+
+    document
+    .getElementById("menuOverlay")
+    .classList.remove("active");
 
 }
 
